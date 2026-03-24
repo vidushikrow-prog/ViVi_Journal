@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Trash2, Edit2 } from "lucide-react";
+import { Trash2, Edit2, Plus } from "lucide-react";
 import { Memory } from "../types";
 
 interface TimelineProps {
@@ -49,13 +49,19 @@ export default function Timeline({ memories, onDelete, onEdit }: TimelineProps) 
                 <div className="relative p-1 rounded-[2.5rem] bg-gradient-to-br from-desi-gold/50 via-pastel-pink to-pastel-orange/50 shadow-xl transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-pastel-pink/50">
                   <div className="glass-card rounded-[2.4rem] overflow-hidden">
                     {/* Image with Zoom Effect */}
-                    <div className="w-full h-auto overflow-hidden relative">
-                      <img
-                        src={memory.imageUrl}
-                        alt={memory.title}
-                        className="w-full h-auto object-contain transition-transform duration-1000 group-hover:scale-110"
-                        referrerPolicy="no-referrer"
-                      />
+                    <div className="w-full h-auto overflow-hidden relative min-h-[200px] flex items-center justify-center bg-white/5">
+                      {memory.imageUrl ? (
+                        <img
+                          src={memory.imageUrl}
+                          alt={memory.title}
+                          className="w-full h-auto object-contain transition-transform duration-1000 group-hover:scale-110"
+                          referrerPolicy="no-referrer"
+                        />
+                      ) : (
+                        <div className="p-20">
+                          <Plus className="w-16 h-16 text-desi-gold/30" />
+                        </div>
+                      )}
                       {/* Decorative Corner Motifs */}
                       <div className="absolute top-6 left-6 w-12 h-12 border-t border-l border-desi-gold/40" />
                       <div className="absolute bottom-6 right-6 w-12 h-12 border-b border-r border-desi-gold/40" />

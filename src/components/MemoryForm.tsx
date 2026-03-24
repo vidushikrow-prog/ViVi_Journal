@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
-import { Upload, Sparkles, X } from "lucide-react";
+import { Plus, Sparkles, X } from "lucide-react";
 import { Memory } from "../types";
 
 interface MemoryFormProps {
@@ -106,13 +106,12 @@ export default function MemoryForm({ onSave, editingMemory, onCancel, formRef }:
               <>
                 <img src={image} alt="Preview" className="w-full h-auto object-contain" />
                 <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                  <span className="text-white font-bold tracking-widest uppercase">Change Photo</span>
+                  <Plus className="w-12 h-12 text-white" />
                 </div>
               </>
             ) : (
               <div className="text-center p-6">
-                <Upload className="w-16 h-16 text-desi-gold/50 mx-auto mb-6" />
-                <p className="text-desi-gold font-serif text-lg">Click to upload a beautiful moment</p>
+                <Plus className="w-16 h-16 text-desi-gold/50 mx-auto" />
               </div>
             )}
             <input 
@@ -131,7 +130,7 @@ export default function MemoryForm({ onSave, editingMemory, onCancel, formRef }:
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="Where was this?"
+                placeholder=""
                 className="w-full bg-transparent border-b border-desi-gold/30 py-4 focus:border-desi-gold outline-none transition-colors font-serif text-2xl text-deep-ocean placeholder:text-deep-ocean/30"
                 required
               />
@@ -142,7 +141,7 @@ export default function MemoryForm({ onSave, editingMemory, onCancel, formRef }:
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="What happened?"
+                placeholder=""
                 rows={1}
                 className="w-full bg-transparent border-b border-desi-gold/30 py-4 focus:border-desi-gold outline-none transition-colors font-serif italic text-xl text-deep-ocean placeholder:text-deep-ocean/30 resize-none"
                 required

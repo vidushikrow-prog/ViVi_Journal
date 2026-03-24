@@ -7,6 +7,8 @@ import MessageSection from "./components/MessageSection";
 import Footer from "./components/Footer";
 import Glitter from "./components/Glitter";
 import FlowerBackground from "./components/FlowerBackground";
+import PasswordPage from "./components/PasswordPage";
+import { Toaster, toast } from "sonner";
 import { Memory } from "./types";
 
 const INITIAL_MEMORIES: Memory[] = [
@@ -14,19 +16,21 @@ const INITIAL_MEMORIES: Memory[] = [
     id: "1",
     title: "The Beginning",
     description: "Where it all started. A simple hello that changed our lives forever.",
-    imageUrl: "https://picsum.photos/seed/couple1/800/1000",
+    imageUrl: "",
     date: Date.now() - 10000000000,
   },
   {
     id: "2",
     title: "Sunset Promises",
     description: "Watching the sky turn into a canvas of orange and pink, promising to always be there.",
-    imageUrl: "https://picsum.photos/seed/couple2/800/1000",
+    imageUrl: "",
     date: Date.now() - 5000000000,
   }
 ];
 
 export default function App() {
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
   const [memories, setMemories] = useState<Memory[]>([]);
   const [editingMemory, setEditingMemory] = useState<Memory | null>(null);
   const [heroData, setHeroData] = useState({
@@ -38,6 +42,12 @@ export default function App() {
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
+    // Check if already unlocked in this session
+    const unlocked = sessionStorage.getItem("vivi_unlocked");
+    if (unlocked === "true") {
+      setIsUnlocked(true);
+    }
+
     const savedMemories = localStorage.getItem("vivi_memories");
     if (savedMemories) {
       setMemories(JSON.parse(savedMemories));
@@ -50,6 +60,21 @@ export default function App() {
       setHeroData(JSON.parse(savedHero));
     }
   }, []);
+
+  const handleUnlock = (password: string) => {
+    const correctPassword = import.meta.env.VITE_APP_PASSWORD || "vivi2024";
+    if (password === correctPassword) {
+      setIsUnlocked(true);
+      sessionStorage.setItem("vivi_unlocked", "true");
+      setPasswordError("");
+    } else {
+      setPasswordError("Incorrect Password. Try again, love.");
+    }
+  };
+
+  if (!isUnlocked) {
+    return <PasswordPage onUnlock={handleUnlock} error={passwordError} />;
+  }
 
   const handleSaveHero = (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,13 +111,26 @@ export default function App() {
   };
 
   const handleGlobalSave = () => {
+    let savedSomething = false;
+
+    // Save Hero Data if modified
+    localStorage.setItem("vivi_hero", JSON.stringify(heroData));
+    
+    // Trigger Memory Form submit if it has content
     if (formRef.current) {
       formRef.current.requestSubmit();
+      savedSomething = true;
     }
+
+    toast.success("Journal Updated!", {
+      description: "All your beautiful memories are safe.",
+      className: "font-serif italic",
+    });
   };
 
   return (
     <div className="min-h-screen selection:bg-desi-gold selection:text-white pastel-sky-gradient">
+      <Toaster position="top-center" expand={true} richColors />
       <Glitter />
       <FlowerBackground />
       <Hero 
