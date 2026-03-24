@@ -49,11 +49,11 @@ export default function Timeline({ memories, onDelete, onEdit }: TimelineProps) 
                 <div className="relative p-1 rounded-[2.5rem] bg-gradient-to-br from-desi-gold/50 via-pastel-pink to-pastel-orange/50 shadow-xl transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-pastel-pink/50">
                   <div className="glass-card rounded-[2.4rem] overflow-hidden">
                     {/* Image with Zoom Effect */}
-                    <div className="aspect-[4/5] w-full overflow-hidden relative">
+                    <div className="w-full h-auto overflow-hidden relative">
                       <img
                         src={memory.imageUrl}
                         alt={memory.title}
-                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                        className="w-full h-auto object-contain transition-transform duration-1000 group-hover:scale-110"
                         referrerPolicy="no-referrer"
                       />
                       {/* Decorative Corner Motifs */}

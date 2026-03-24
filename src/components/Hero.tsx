@@ -60,23 +60,23 @@ export default function Hero({ title, subheading, quote, onEditClick }: HeroProp
             transition={{ duration: 3, repeat: Infinity }}
             className="absolute -inset-10 bg-pastel-pink/30 blur-3xl rounded-full"
           />
-          <h1 className="font-algerian text-deep-ocean text-6xl md:text-7xl mb-2 drop-shadow-sm whitespace-nowrap">
+          <h1 className="font-algerian text-deep-ocean text-4xl md:text-7xl mb-2 drop-shadow-sm leading-tight">
             {title}
           </h1>
         </div>
         
-        <h2 className="font-script text-desi-gold text-2xl md:text-3xl mb-12 drop-shadow-sm leading-tight italic lowercase whitespace-nowrap">
+        <h2 className="font-script text-desi-gold text-xl md:text-3xl mb-12 drop-shadow-sm leading-tight italic lowercase">
           {subheading}
         </h2>
 
         <motion.div 
           initial={{ width: 0 }}
-          animate={{ width: "300px" }}
+          animate={{ width: "200px" }}
           transition={{ delay: 1, duration: 1.5 }}
-          className="h-px bg-gradient-to-r from-transparent via-desi-gold to-transparent mx-auto mb-12"
+          className="h-px bg-gradient-to-r from-transparent via-desi-gold to-transparent mx-auto mb-12 md:w-[300px]"
         />
         
-        <p className="font-serif italic text-deep-ocean/70 text-xl md:text-2xl max-w-2xl mx-auto">
+        <p className="font-serif italic text-deep-ocean/70 text-lg md:text-2xl max-w-[90vw] md:max-w-2xl mx-auto">
           "{quote}"
         </p>
       </motion.div>

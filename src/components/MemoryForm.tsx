@@ -68,7 +68,7 @@ export default function MemoryForm({ onSave, editingMemory, onCancel, formRef }:
           >
             <Sparkles className="w-8 h-8 text-desi-gold" />
           </motion.div>
-          <h2 className="font-calligraphy text-6xl md:text-7xl text-deep-ocean mb-8">
+          <h2 className="font-calligraphy text-4xl md:text-7xl text-deep-ocean mb-8">
             {editingMemory ? "Edit Memory" : "The Next Chapter"}
           </h2>
           
@@ -100,11 +100,11 @@ export default function MemoryForm({ onSave, editingMemory, onCancel, formRef }:
         >
           <div 
             onClick={() => fileInputRef.current?.click()}
-            className="relative h-80 w-full border-2 border-dashed border-desi-gold/20 rounded-[2rem] flex flex-col items-center justify-center cursor-pointer hover:border-desi-gold transition-all overflow-hidden group bg-white/10"
+            className="relative min-h-80 w-full border-2 border-dashed border-desi-gold/20 rounded-[2rem] flex flex-col items-center justify-center cursor-pointer hover:border-desi-gold transition-all overflow-hidden group bg-white/10"
           >
             {image ? (
               <>
-                <img src={image} alt="Preview" className="w-full h-full object-cover" />
+                <img src={image} alt="Preview" className="w-full h-auto object-contain" />
                 <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                   <span className="text-white font-bold tracking-widest uppercase">Change Photo</span>
                 </div>

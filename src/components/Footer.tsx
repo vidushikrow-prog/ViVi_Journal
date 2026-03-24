@@ -45,7 +45,7 @@ export default function Footer({ subheading, onSave }: FooterProps) {
         
         <div className="flex items-center justify-center gap-6 mb-8">
           <div className="h-px w-16 bg-gradient-to-r from-transparent to-desi-gold/30" />
-          <p className="font-script text-3xl text-desi-gold italic lowercase">
+          <p className="font-script text-3xl text-desi-gold italic lowercase whitespace-nowrap">
             {subheading}
           </p>
           <div className="h-px w-16 bg-gradient-to-l from-transparent to-desi-gold/30" />
