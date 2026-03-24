@@ -1,13 +1,14 @@
 import { motion } from "motion/react";
-import { Trash2 } from "lucide-react";
+import { Trash2, Edit2 } from "lucide-react";
 import { Memory } from "../types";
 
 interface TimelineProps {
   memories: Memory[];
   onDelete?: (id: string) => void;
+  onEdit?: (memory: Memory) => void;
 }
 
-export default function Timeline({ memories, onDelete }: TimelineProps) {
+export default function Timeline({ memories, onDelete, onEdit }: TimelineProps) {
   return (
     <section className="py-32 px-4 max-w-6xl mx-auto relative">
       <div className="relative">
@@ -23,16 +24,27 @@ export default function Timeline({ memories, onDelete }: TimelineProps) {
             >
               {/* Card Container */}
               <div className="w-full max-w-xl group relative">
-                {/* Delete Button */}
-                {onDelete && (
-                  <button
-                    onClick={() => onDelete(memory.id)}
-                    className="absolute -top-4 -right-4 z-30 p-3 bg-white/80 backdrop-blur-sm rounded-full text-red-400 opacity-0 group-hover:opacity-100 transition-all hover:bg-red-50 hover:text-red-600 shadow-lg border border-red-100"
-                    title="Delete Memory"
-                  >
-                    <Trash2 size={20} />
-                  </button>
-                )}
+                {/* Action Buttons */}
+                <div className="absolute -top-4 -right-4 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                  {onEdit && (
+                    <button
+                      onClick={() => onEdit(memory)}
+                      className="p-3 bg-white/80 backdrop-blur-sm rounded-full text-desi-gold hover:bg-desi-gold hover:text-white shadow-lg border border-desi-gold/10"
+                      title="Edit Memory"
+                    >
+                      <Edit2 size={18} />
+                    </button>
+                  )}
+                  {onDelete && (
+                    <button
+                      onClick={() => onDelete(memory.id)}
+                      className="p-3 bg-white/80 backdrop-blur-sm rounded-full text-red-400 hover:bg-red-50 hover:text-red-600 shadow-lg border border-red-100"
+                      title="Delete Memory"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  )}
+                </div>
                 
                 <div className="relative p-1 rounded-[2.5rem] bg-gradient-to-br from-desi-gold/50 via-pastel-pink to-pastel-orange/50 shadow-xl transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-pastel-pink/50">
                   <div className="glass-card rounded-[2.4rem] overflow-hidden">

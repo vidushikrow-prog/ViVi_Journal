@@ -1,8 +1,25 @@
 import { motion } from "motion/react";
+import { Settings } from "lucide-react";
 
-export default function Hero() {
+interface HeroProps {
+  title: string;
+  subheading: string;
+  quote: string;
+  onEditClick: () => void;
+}
+
+export default function Hero({ title, subheading, quote, onEditClick }: HeroProps) {
   return (
     <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden">
+      {/* Edit Trigger */}
+      <button 
+        onClick={onEditClick}
+        className="absolute top-8 right-8 z-50 p-4 bg-white/10 backdrop-blur-md rounded-full text-desi-gold hover:bg-desi-gold hover:text-white transition-all border border-desi-gold/20 shadow-xl group"
+        title="Edit Header Content"
+      >
+        <Settings size={20} className="group-hover:rotate-90 transition-transform duration-500" />
+      </button>
+
       {/* Floating Lanterns - More pastel and varied */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(40)].map((_, i) => (
@@ -44,12 +61,12 @@ export default function Hero() {
             className="absolute -inset-10 bg-pastel-pink/30 blur-3xl rounded-full"
           />
           <h1 className="font-algerian text-deep-ocean text-6xl md:text-7xl mb-2 drop-shadow-sm whitespace-nowrap">
-            The ViVi Journal
+            {title}
           </h1>
         </div>
         
         <h2 className="font-script text-desi-gold text-2xl md:text-3xl mb-12 drop-shadow-sm leading-tight italic lowercase whitespace-nowrap">
-          vishesh and vidushi
+          {subheading}
         </h2>
 
         <motion.div 
@@ -60,7 +77,7 @@ export default function Hero() {
         />
         
         <p className="font-serif italic text-deep-ocean/70 text-xl md:text-2xl max-w-2xl mx-auto">
-          "Here's to a lifetime of love, laughter, magic and friendship"
+          "{quote}"
         </p>
       </motion.div>
     </section>

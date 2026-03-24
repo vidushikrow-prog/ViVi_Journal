@@ -1,17 +1,32 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
-import { Upload, Sparkles } from "lucide-react";
+import { Upload, Sparkles, X } from "lucide-react";
 import { Memory } from "../types";
 
 interface MemoryFormProps {
   onSave: (memory: Memory) => void;
+  editingMemory?: Memory | null;
+  onCancel?: () => void;
+  formRef?: React.RefObject<HTMLFormElement | null>;
 }
 
-export default function MemoryForm({ onSave }: MemoryFormProps) {
+export default function MemoryForm({ onSave, editingMemory, onCancel, formRef }: MemoryFormProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (editingMemory) {
+      setTitle(editingMemory.title);
+      setDescription(editingMemory.description);
+      setImage(editingMemory.imageUrl);
+    } else {
+      setTitle("");
+      setDescription("");
+      setImage(null);
+    }
+  }, [editingMemory]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -29,11 +44,11 @@ export default function MemoryForm({ onSave }: MemoryFormProps) {
     if (!title || !description || !image) return;
 
     const newMemory: Memory = {
-      id: Date.now().toString(),
+      id: editingMemory ? editingMemory.id : Date.now().toString(),
       title,
       description,
       imageUrl: image,
-      date: Date.now(),
+      date: editingMemory ? editingMemory.date : Date.now(),
     };
 
     onSave(newMemory);
@@ -43,7 +58,7 @@ export default function MemoryForm({ onSave }: MemoryFormProps) {
   };
 
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section id="add-memory" className="py-24 relative overflow-hidden">
       <div className="max-w-3xl mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <motion.div 
@@ -53,13 +68,36 @@ export default function MemoryForm({ onSave }: MemoryFormProps) {
           >
             <Sparkles className="w-8 h-8 text-desi-gold" />
           </motion.div>
-          <h2 className="font-calligraphy text-6xl md:text-7xl text-deep-ocean mb-4">
-            The Next Chapter
+          <h2 className="font-calligraphy text-6xl md:text-7xl text-deep-ocean mb-8">
+            {editingMemory ? "Edit Memory" : "The Next Chapter"}
           </h2>
-          <p className="text-desi-gold italic text-2xl font-script">Add a New Memory</p>
+          
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            type="submit"
+            form="memory-form"
+            className="bg-desi-gold text-white px-10 py-4 rounded-full font-bold tracking-[0.3em] uppercase text-xs shadow-xl hover:bg-desi-gold/90 transition-all mb-4"
+          >
+            {editingMemory ? "Update Memory" : "Add a New Memory"}
+          </motion.button>
+
+          {editingMemory && (
+            <button 
+              onClick={onCancel}
+              className="mt-4 text-deep-ocean/50 hover:text-deep-ocean flex items-center gap-2 mx-auto uppercase tracking-widest text-[10px] font-bold"
+            >
+              <X size={12} /> Cancel Edit
+            </button>
+          )}
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-8 glass-card p-8 md:p-12 rounded-[3rem]">
+        <form 
+          ref={formRef} 
+          id="memory-form"
+          onSubmit={handleSubmit} 
+          className="space-y-8 glass-card p-8 md:p-12 rounded-[3rem]"
+        >
           <div 
             onClick={() => fileInputRef.current?.click()}
             className="relative h-80 w-full border-2 border-dashed border-desi-gold/20 rounded-[2rem] flex flex-col items-center justify-center cursor-pointer hover:border-desi-gold transition-all overflow-hidden group bg-white/10"
@@ -112,14 +150,8 @@ export default function MemoryForm({ onSave }: MemoryFormProps) {
             </div>
           </div>
 
-          <motion.button
-            whileHover={{ scale: 1.02, backgroundColor: "#D4AF37", color: "white" }}
-            whileTap={{ scale: 0.98 }}
-            type="submit"
-            className="w-full bg-white text-desi-gold border border-desi-gold/30 font-bold py-5 rounded-2xl shadow-sm transition-all duration-300 uppercase tracking-[0.4em] text-lg"
-          >
-            Save Memory
-          </motion.button>
+          {/* Hidden submit button for external triggering via VV button */}
+          <button type="submit" className="hidden" />
         </form>
       </div>
     </section>
